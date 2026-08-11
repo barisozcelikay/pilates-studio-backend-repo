@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="014-create-reservation" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="reservation">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_reservation"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Rezervasyonu yapan üye -->
+
+            <column
+                    name="account_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Rezervasyon yapılan ders -->
+
+            <column
+                    name="lesson_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Hangi üyelik hakkından düşülecek -->
+
+            <column
+                    name="membership_service_right_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Rezervasyon durumu -->
+
+            <column
+                    name="status"
+                    type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- İptal bilgileri -->
+
+            <column
+                    name="cancelled_at"
+                    type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column
+                    name="cancel_reason"
+                    type="VARCHAR(500)"/>
+
+            <!-- Audit -->
+
+        </createTable>
+
+        <!-- Aynı kullanıcı aynı derse iki kez rezervasyon yapamasın -->
+
+        <addUniqueConstraint
+                schemaName="pilates_studio"
+                tableName="reservation"
+                columnNames="account_id, lesson_id"
+                constraintName="uk_reservation_account_lesson"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="reservation"
+                baseColumnNames="account_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="account"
+                referencedColumnNames="id"
+                constraintName="fk_reservation_account"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="reservation"
+                baseColumnNames="lesson_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="lesson"
+                referencedColumnNames="id"
+                constraintName="fk_reservation_lesson"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="reservation"
+                baseColumnNames="membership_service_right_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="membership_service_right"
+                referencedColumnNames="id"
+                constraintName="fk_reservation_membership_service_right"/>
+
+        <!-- Takvim ve üye sorguları için index -->
+
+        <createIndex
+                schemaName="pilates_studio"
+                tableName="reservation"
+                indexName="idx_reservation_lesson_id">
+
+            <column name="lesson_id"/>
+
+        </createIndex>
+
+        <createIndex
+                schemaName="pilates_studio"
+                tableName="reservation"
+                indexName="idx_reservation_account_id">
+
+            <column name="account_id"/>
+
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>

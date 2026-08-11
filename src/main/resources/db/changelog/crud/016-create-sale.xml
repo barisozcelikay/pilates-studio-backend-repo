@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="016-create-sale" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="sale">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_sale"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Paketi satın alan müşteri -->
+
+            <column
+                    name="account_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Oluşturulan üyelik -->
+
+            <column
+                    name="membership_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Satış işlemini yapan admin -->
+
+            <column
+                    name="created_by_account_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Satış tutarı -->
+
+            <column
+                    name="total_amount"
+                    type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Satış durumu -->
+
+            <column
+                    name="status"
+                    type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Not -->
+
+            <column
+                    name="note"
+                    type="VARCHAR(500)"/>
+
+            <!-- Satış zamanı -->
+
+            <column
+                    name="sold_at"
+                    type="TIMESTAMP WITH TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Audit -->
+
+
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="sale"
+                baseColumnNames="account_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="account"
+                referencedColumnNames="id"
+                constraintName="fk_sale_account"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="sale"
+                baseColumnNames="membership_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="membership"
+                referencedColumnNames="id"
+                constraintName="fk_sale_membership"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="sale"
+                baseColumnNames="created_by_account_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="account"
+                referencedColumnNames="id"
+                constraintName="fk_sale_created_by_account"/>
+
+    </changeSet>
+
+</databaseChangeLog>

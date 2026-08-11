@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="014-create-membership-service-right-usage" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="membership_service_right_usage">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_membership_service_right_usage"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="membership_service_right_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Ders kaynaklı kullanımda dolu, manuel işlemlerde NULL -->
+            <column
+                    name="reservation_id"
+                    type="BIGINT"/>
+
+            <column
+                    name="usage_type"
+                    type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="lesson_count"
+                    type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="description"
+                    type="VARCHAR(500)"/>
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="membership_service_right_usage"
+                baseColumnNames="membership_service_right_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="membership_service_right"
+                referencedColumnNames="id"
+                constraintName="fk_membership_service_right_usage_right"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="membership_service_right_usage"
+                baseColumnNames="reservation_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="reservation"
+                referencedColumnNames="id"
+                constraintName="fk_membership_service_right_usage_reservation"/>
+
+        <createIndex
+                schemaName="pilates_studio"
+                tableName="membership_service_right_usage"
+                indexName="idx_membership_service_right_usage_right_id">
+
+            <column name="membership_service_right_id"/>
+
+        </createIndex>
+
+        <createIndex
+                schemaName="pilates_studio"
+                tableName="membership_service_right_usage"
+                indexName="idx_membership_service_right_usage_reservation_id">
+
+            <column name="reservation_id"/>
+
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>

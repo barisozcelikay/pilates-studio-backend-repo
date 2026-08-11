@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004-insert-account-role" author="baris">
+
+        <!-- Barış → ADMIN -->
+        <insert schemaName="pilates_studio" tableName="account_role">
+            <column
+                    name="account_id"
+                    valueComputed="(SELECT id FROM pilates_studio.account WHERE email = 'admin@pilatesstudio.local')"/>
+
+            <column
+                    name="role_id"
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ADMIN')"/>
+        </insert>
+
+        <!-- Dilsad → INSTRUCTOR -->
+        <insert schemaName="pilates_studio" tableName="account_role">
+            <column
+                    name="account_id"
+                    valueComputed="(SELECT id FROM pilates_studio.account WHERE email = 'egitmen@pilatesstudio.local')"/>
+
+            <column
+                    name="role_id"
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'INSTRUCTOR')"/>
+        </insert>
+
+        <!-- Ayşe → MEMBER -->
+        <insert schemaName="pilates_studio" tableName="account_role">
+            <column
+                    name="account_id"
+                    valueComputed="(SELECT id FROM pilates_studio.account WHERE email = 'ayse@pilatesstudio.local')"/>
+
+            <column
+                    name="role_id"
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'MEMBER')"/>
+        </insert>
+
+        <!-- Fatma → MEMBER -->
+        <insert schemaName="pilates_studio" tableName="account_role">
+            <column
+                    name="account_id"
+                    valueComputed="(SELECT id FROM pilates_studio.account WHERE email = 'fatma@pilatesstudio.local')"/>
+
+            <column
+                    name="role_id"
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'MEMBER')"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

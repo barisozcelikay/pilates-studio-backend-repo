@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="006-create-package-service" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="package_service">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_package_service"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="package_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="service_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="session_count"
+                    type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <addUniqueConstraint
+                schemaName="pilates_studio"
+                tableName="package_service"
+                columnNames="package_id, service_id"
+                constraintName="uk_package_service_package_service"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="package_service"
+                baseColumnNames="package_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="package"
+                referencedColumnNames="id"
+                constraintName="fk_package_service_package"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="package_service"
+                baseColumnNames="service_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="service"
+                referencedColumnNames="id"
+                constraintName="fk_package_service_service"
+                onDelete="RESTRICT"/>
+
+    </changeSet>
+
+</databaseChangeLog>

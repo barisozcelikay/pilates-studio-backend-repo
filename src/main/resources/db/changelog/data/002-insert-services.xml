@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-insert-initial-service" author="baris">
+
+        <insert
+                schemaName="pilates_studio"
+                tableName="service">
+            <column name="code" value="REFORMER"/>
+            <column name="name" value="Reformer Pilates"/>
+            <column
+                    name="description"
+                    value="Reformer Pilates dersi"/>
+        </insert>
+
+        <insert
+                schemaName="pilates_studio"
+                tableName="service">
+            <column name="code" value="HAMMOCK_YOGA"/>
+            <column name="name" value="Hamak Yoga"/>
+            <column
+                    name="description"
+                    value="Hamak Yoga dersi"/>
+        </insert>
+
+        <insert
+                schemaName="pilates_studio"
+                tableName="service">
+            <column name="code" value="PRIVATE_PT"/>
+            <column name="name" value="Özel PT"/>
+            <column
+                    name="description"
+                    value="Kişiye özel PT dersi"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

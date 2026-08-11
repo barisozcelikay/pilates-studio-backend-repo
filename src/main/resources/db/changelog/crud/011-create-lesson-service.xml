@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="012-create-lesson-service" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="lesson_service">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_lesson_service"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="lesson_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="service_id"
+                    type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="lesson_service"
+                baseColumnNames="lesson_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="lesson"
+                referencedColumnNames="id"
+                constraintName="fk_lesson_service_lesson"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="lesson_service"
+                baseColumnNames="service_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="service"
+                referencedColumnNames="id"
+                constraintName="fk_lesson_service_service"/>
+
+    </changeSet>
+
+</databaseChangeLog>

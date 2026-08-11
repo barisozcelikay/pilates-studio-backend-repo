@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="011-create-lesson" author="baris">
+
+        <createTable
+                schemaName="pilates_studio"
+                tableName="lesson">
+
+            <column
+                    name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="pk_lesson"
+                        nullable="false"/>
+            </column>
+
+            <column
+                    name="created_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="updated_at"
+                    type="TIMESTAMP WITHOUT TIME ZONE"
+                    defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column
+                    name="studio_id"
+                    type="BIGINT"/>
+
+            <column
+                    name="name"
+                    type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="description"
+                    type="VARCHAR(500)"/>
+
+            <!-- Ders zamanı -->
+            <column
+                    name="start_at"
+                    type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="end_at"
+                    type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Ders kapasitesi -->
+            <column
+                    name="capacity"
+                    type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Ders durumu -->
+            <column
+                    name="status"
+                    type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Audit -->
+
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="lesson"
+                baseColumnNames="studio_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="studio"
+                referencedColumnNames="id"
+                constraintName="fk_lesson_studio"/>
+
+        <createIndex
+                schemaName="pilates_studio"
+                tableName="lesson"
+                indexName="idx_lesson_start_at">
+
+            <column name="start_at"/>
+
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>
