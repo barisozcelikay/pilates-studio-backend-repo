@@ -60,7 +60,7 @@
             </column>
 
             <column
-                    name="phone_verified"
+                    name="email_verified"
                     type="BOOLEAN"
                     defaultValueBoolean="false">
                 <constraints nullable="false"/>

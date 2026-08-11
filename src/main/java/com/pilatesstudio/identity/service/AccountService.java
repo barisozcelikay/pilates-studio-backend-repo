@@ -1,10 +1,16 @@
 package com.pilatesstudio.identity.service;
 
+import com.pilatesstudio.authentication.model.PasswordTokenType;
+import com.pilatesstudio.authentication.service.EmailService;
+import com.pilatesstudio.authentication.service.PasswordTokenService;
 import com.pilatesstudio.common.exception.BusinessException;
 import com.pilatesstudio.common.exception.ResourceNotFoundException;
 import com.pilatesstudio.identity.dto.AccountDto;
+import com.pilatesstudio.identity.dto.AccountRoleDto;
 import com.pilatesstudio.identity.entity.Account;
+import com.pilatesstudio.identity.entity.AccountRole;
 import com.pilatesstudio.identity.mapper.AccountMapper;
+import com.pilatesstudio.identity.model.AccountStatus;
 import com.pilatesstudio.identity.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +26,9 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final AccountRoleService accountRoleService;
+    private final PasswordTokenService passwordTokenService;
+    private final EmailService emailService;
 
     public List<AccountDto> findAll() {
         return accountRepository.findAll()
@@ -51,7 +59,15 @@ public class AccountService {
     public Account findEntityByPhone(String phone) {
         return accountRepository.findByPhone(phone)
                 .orElseThrow(() ->
-                        new BusinessException("Invalid phone or password")
+                        new BusinessException("Invalid phone")
+                );
+    }
+
+    @Transactional(readOnly = true)
+    public Account findEntityByEmail(String email) {
+        return accountRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new BusinessException("Invalid email")
                 );
     }
 
@@ -81,12 +97,24 @@ public class AccountService {
             );
         }
         Account account = accountMapper.toEntity(accountDto);
-
-        account.setPasswordHash(
-                passwordEncoder.encode(accountDto.getPassword())
-        );
+        account.setStatus(AccountStatus.PENDING);
+        account.setEmailVerified(false);
+        account.setPasswordHash(null);
 
         Account savedAccount = accountRepository.save(account);
+        accountRoleService.assignMemberRoleToNewAccount(account.getId());
+
+        String token = passwordTokenService.createToken(
+                savedAccount,
+                PasswordTokenType.INITIAL_PASSWORD
+        );
+
+        emailService.sendInitialPasswordEmail(
+                savedAccount.getEmail(),
+                savedAccount.getFirstName(),
+                savedAccount.getLastName(),
+                token
+        );
 
         return accountMapper.toDto(savedAccount);
     }

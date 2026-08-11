@@ -62,8 +62,8 @@ public class Account extends BaseEntity {
     private AccountStatus status;
 
     @Column(
-            name = "phone_verified",
+            name = "email_verified",
             nullable = false
     )
-    private boolean phoneVerified;
+    private boolean emailVerified;
 }

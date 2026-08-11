@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,17 +36,23 @@ public class AccountRoleController {
     }
 
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AccountRoleDto assignRole(
+    public ResponseEntity<AccountRoleDto> create(
             @Valid @RequestBody AccountRoleDto accountRoleDto
     ) {
-        return accountRoleService.assignRole(accountRoleDto);
+        return ResponseEntity.ok(
+                accountRoleService.create(accountRoleDto)
+        );
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeRole(@PathVariable Long id) {
-        accountRoleService.removeRole(id);
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping
+    public ResponseEntity<Void> removeRole(
+            @Valid @RequestBody AccountRoleDto accountRoleDto
+    ) {
+        accountRoleService.delete(accountRoleDto);
+        return ResponseEntity.noContent().build();
     }
 }

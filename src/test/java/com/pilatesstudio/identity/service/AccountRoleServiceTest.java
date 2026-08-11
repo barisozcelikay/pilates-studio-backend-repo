@@ -29,7 +29,7 @@ class AccountRoleServiceTest {
         dto.setRoleId(2L);
 
         AccountRoleDto result =
-                accountRoleService.assignRole(dto);
+                accountRoleService.create(dto);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isNotNull();
@@ -44,10 +44,10 @@ class AccountRoleServiceTest {
         dto.setAccountId(1L);
         dto.setRoleId(1L);
 
-        accountRoleService.assignRole(dto);
+        accountRoleService.create(dto);
 
         assertThatThrownBy(() ->
-                accountRoleService.assignRole(dto)
+                accountRoleService.create(dto)
         )
                 .isInstanceOf(BusinessException.class)
                 .hasMessage("Role is already assigned to account");
@@ -64,8 +64,8 @@ class AccountRoleServiceTest {
         secondRole.setAccountId(3L);
         secondRole.setRoleId(2L);
 
-        accountRoleService.assignRole(firstRole);
-        accountRoleService.assignRole(secondRole);
+        accountRoleService.create(firstRole);
+        accountRoleService.create(secondRole);
 
         List<RoleDto> roles =
                 accountRoleService.findRolesByAccountId(2L);
@@ -84,9 +84,9 @@ class AccountRoleServiceTest {
         dto.setRoleId(1L);
 
         AccountRoleDto created =
-                accountRoleService.assignRole(dto);
+                accountRoleService.create(dto);
 
-        accountRoleService.removeRole(created.getId());
+        accountRoleService.delete(created);
 
         assertThatThrownBy(() ->
                 accountRoleService.findById(created.getId())

@@ -1,8 +1,13 @@
 package com.pilatesstudio.authentication.service;
 
+import com.pilatesstudio.authentication.dto.ForgotPasswordRequest;
 import com.pilatesstudio.authentication.dto.LoginRequest;
 import com.pilatesstudio.authentication.dto.LoginResponse;
+import com.pilatesstudio.authentication.dto.ResetPasswordRequest;
+import com.pilatesstudio.authentication.dto.SetPasswordRequest;
+import com.pilatesstudio.authentication.entity.PasswordToken;
 import com.pilatesstudio.authentication.jwt.JwtService;
+import com.pilatesstudio.authentication.model.PasswordTokenType;
 import com.pilatesstudio.common.exception.BusinessException;
 import com.pilatesstudio.identity.dto.RoleDto;
 import com.pilatesstudio.identity.entity.Account;
@@ -22,13 +27,15 @@ public class AuthenticationService {
 
     private final AccountService accountService;
     private final AccountRoleService accountRoleService;
+    private final PasswordTokenService passwordTokenService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
 
-        Account account = accountService.findEntityByPhone(request.getPhone());
+        Account account =
+                accountService.findEntityByEmail(request.getEmail());
 
         if (account.getStatus() != AccountStatus.ACTIVE) {
             throw new BusinessException("Account is not active");
@@ -57,5 +64,71 @@ public class AuthenticationService {
                 "Bearer",
                 jwtService.getExpiration()
         );
+    }
+
+    @Transactional
+    public void setPassword(SetPasswordRequest request) {
+
+        PasswordToken passwordToken =
+                passwordTokenService.validateToken(
+                        request.getToken(),
+                        PasswordTokenType.INITIAL_PASSWORD
+                );
+
+        Account account = passwordToken.getAccount();
+
+        if (account.getStatus() != AccountStatus.PENDING) {
+            throw new BusinessException("Account is not pending");
+        }
+
+        account.setPasswordHash(
+                passwordEncoder.encode(request.getNewPassword())
+        );
+
+        account.setStatus(AccountStatus.ACTIVE);
+        account.setEmailVerified(true);
+
+        passwordTokenService.markAsUsed(passwordToken);
+    }
+
+    @Transactional
+    public void forgotPassword(ForgotPasswordRequest request) {
+
+        Account account =
+                accountService.findEntityByEmail(request.getEmail());
+
+        if (account.getStatus() != AccountStatus.ACTIVE) {
+            throw new BusinessException("Account is not active");
+        }
+
+        String token = passwordTokenService.createToken(
+                account,
+                PasswordTokenType.PASSWORD_RESET
+        );
+
+        // TODO: EmailService eklendiğinde burada email gönderilecek.
+        System.out.println("PASSWORD RESET TOKEN: " + token);
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+
+        PasswordToken passwordToken =
+                passwordTokenService.validateToken(
+                        request.getToken(),
+                        PasswordTokenType.PASSWORD_RESET
+                );
+
+        Account account = passwordToken.getAccount();
+
+        if (account.getStatus() != AccountStatus.ACTIVE) {
+            throw new BusinessException("Account is not active");
+        }
+
+        account.setPasswordHash(
+                passwordEncoder.encode(request.getNewPassword())
+        );
+
+        passwordTokenService.markAsUsed(passwordToken);
     }
 }
