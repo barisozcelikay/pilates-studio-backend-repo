@@ -13,8 +13,8 @@
                 schemaName="pilates_studio"
                 tableName="role">
 
-            <column name="code" value="ADMIN"/>
-            <column name="name" value="Yönetici"/>
+            <column name="code" value="ROLE_ADMIN"/>
+            <column name="name" value="Yönetici Rolü Yetkisi"/>
 
         </insert>
 
@@ -22,8 +22,8 @@
                 schemaName="pilates_studio"
                 tableName="role">
 
-            <column name="code" value="INSTRUCTOR"/>
-            <column name="name" value="Eğitmen"/>
+            <column name="code" value="ROLE_INSTRUCTOR"/>
+            <column name="name" value="Eğitmen Rolü Yetkisi"/>
 
         </insert>
 
@@ -31,8 +31,8 @@
                 schemaName="pilates_studio"
                 tableName="role">
 
-            <column name="code" value="MEMBER"/>
-            <column name="name" value="Üye"/>
+            <column name="code" value="ROLE_MEMBER"/>
+            <column name="name" value="Üye Rolü Yetkisi"/>
 
         </insert>
 

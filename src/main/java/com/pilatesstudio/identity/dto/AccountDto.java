@@ -1,5 +1,6 @@
 package com.pilatesstudio.identity.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pilatesstudio.common.dto.BaseDto;
 import com.pilatesstudio.identity.model.AccountStatus;
 import jakarta.validation.constraints.Email;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,5 +35,5 @@ public class AccountDto extends BaseDto {
 
     private AccountStatus status = AccountStatus.PENDING;
 
-    private boolean phoneVerified = false;
+    private boolean emailVerified = false;
 }

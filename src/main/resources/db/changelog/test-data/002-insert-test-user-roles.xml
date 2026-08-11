@@ -17,7 +17,7 @@
 
             <column
                     name="role_id"
-                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ADMIN')"/>
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ROLE_ADMIN')"/>
         </insert>
 
         <!-- Dilsad → INSTRUCTOR -->
@@ -28,7 +28,7 @@
 
             <column
                     name="role_id"
-                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'INSTRUCTOR')"/>
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ROLE_INSTRUCTOR')"/>
         </insert>
 
         <!-- Ayşe → MEMBER -->
@@ -39,7 +39,7 @@
 
             <column
                     name="role_id"
-                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'MEMBER')"/>
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ROLE_MEMBER')"/>
         </insert>
 
         <!-- Fatma → MEMBER -->
@@ -50,7 +50,7 @@
 
             <column
                     name="role_id"
-                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'MEMBER')"/>
+                    valueComputed="(SELECT id FROM pilates_studio.role WHERE code = 'ROLE_MEMBER')"/>
         </insert>
 
     </changeSet>

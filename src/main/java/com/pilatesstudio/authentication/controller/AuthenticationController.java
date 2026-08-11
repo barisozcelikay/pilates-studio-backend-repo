@@ -2,6 +2,7 @@ package com.pilatesstudio.authentication.controller;
 
 import com.pilatesstudio.authentication.dto.LoginRequest;
 import com.pilatesstudio.authentication.dto.LoginResponse;
+import com.pilatesstudio.authentication.dto.SetPasswordRequest;
 import com.pilatesstudio.authentication.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,29 @@ public class AuthenticationController {
         return ResponseEntity.ok(
                 authenticationService.login(request)
         );
+    }
+
+    @PostMapping("/set-password")
+    public ResponseEntity<Void> setPassword(
+            @Valid @RequestBody SetPasswordRequest request
+    ) {
+        authenticationService.setPassword(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(
+            @Valid @RequestBody SetPasswordRequest request
+    ) {
+        authenticationService.setPassword(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(
+            @Valid @RequestBody SetPasswordRequest request
+    ) {
+        authenticationService.setPassword(request);
+        return ResponseEntity.noContent().build();
     }
 }
