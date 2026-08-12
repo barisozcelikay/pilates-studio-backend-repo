@@ -30,6 +30,7 @@ public class AuthenticationService {
     private final PasswordTokenService passwordTokenService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final EmailService emailService;
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
@@ -105,6 +106,13 @@ public class AuthenticationService {
                 account,
                 PasswordTokenType.PASSWORD_RESET
         );
+
+        emailService.sendForgotPasswordEmail(
+                account.getEmail(),
+                token
+        );
+
+
 
         // TODO: EmailService eklendiğinde burada email gönderilecek.
         System.out.println("PASSWORD RESET TOKEN: " + token);

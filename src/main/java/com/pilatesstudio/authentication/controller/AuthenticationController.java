@@ -1,9 +1,11 @@
 package com.pilatesstudio.authentication.controller;
 
+import com.pilatesstudio.authentication.dto.ForgotPasswordRequest;
 import com.pilatesstudio.authentication.dto.LoginRequest;
 import com.pilatesstudio.authentication.dto.LoginResponse;
 import com.pilatesstudio.authentication.dto.SetPasswordRequest;
 import com.pilatesstudio.authentication.service.AuthenticationService;
+import com.pilatesstudio.authentication.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,9 @@ public class AuthenticationController {
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(
-            @Valid @RequestBody SetPasswordRequest request
+            @Valid @RequestBody ForgotPasswordRequest request
     ) {
-        authenticationService.setPassword(request);
+        authenticationService.forgotPassword(request);
         return ResponseEntity.noContent().build();
     }
 

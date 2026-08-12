@@ -96,4 +96,67 @@ public class EmailService {
             );
         }
     }
+
+    public void sendForgotPasswordEmail(
+            String email,
+            String token
+    ) {
+        try {
+            Context context = new Context();
+
+            context.setVariable(
+                    "resetUrl",
+                    frontendUrl + "/reset-password?token=" + token
+            );
+
+            String html = templateEngine.process(
+                    "email/forgot-password",
+                    context
+            );
+
+            MimeMessage message = mailSender.createMimeMessage();
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(
+                            message,
+                            MimeMessageHelper.MULTIPART_MODE_RELATED,
+                            "UTF-8"
+                    );
+
+            helper.setFrom(from, fromName);
+            helper.setTo(email);
+
+            ClassPathResource logo =
+                    new ClassPathResource(
+                            "static/images/denge-pilates-logo.png"
+                    );
+
+            if (!logo.exists()) {
+                throw new BusinessException(
+                        "Denge Pilates logo not found"
+                );
+            }
+
+            helper.addInline(
+                    "denge-pilates-logo",
+                    logo
+            );
+
+            helper.setSubject(
+                    "Denge Pilates - Şifre Yenileme"
+            );
+
+            helper.setText(html, true);
+
+            mailSender.send(message);
+
+        } catch (
+                MessagingException |
+                UnsupportedEncodingException e
+        ) {
+            throw new BusinessException(
+                    "Forgot password email could not be sent"
+            );
+        }
+    }
 }
