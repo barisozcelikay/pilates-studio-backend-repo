@@ -28,16 +28,6 @@ public class AccountController {
         return accountService.findById(id);
     }
 
-    @GetMapping("/phone/{phone}")
-    public AccountDto findByPhone(@PathVariable String phone) {
-        return accountService.findByPhone(phone);
-    }
-
-    @GetMapping("/email/{email}")
-    public AccountDto findByEmail(@PathVariable String email) {
-        return accountService.findByEmail(email);
-    }
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,5 +35,14 @@ public class AccountController {
             @Valid @RequestBody AccountDto accountDto
     ) {
         return accountService.create(accountDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountDto update(
+            @Valid @RequestBody AccountDto accountDto
+    ) {
+        return accountService.update(accountDto);
     }
 }

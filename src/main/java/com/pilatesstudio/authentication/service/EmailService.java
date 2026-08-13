@@ -44,7 +44,10 @@ public class EmailService {
             context.setVariable("lastName", lastName);
             context.setVariable(
                     "activationUrl",
-                    frontendUrl + "/set-password?token=" + token
+                    frontendUrl
+                            + "/reset-password?token="
+                            + token
+                            + "&type=initial"
             );
 
             String html = templateEngine.process(
@@ -66,7 +69,7 @@ public class EmailService {
 
             ClassPathResource logo =
                     new ClassPathResource(
-                            "static/images/denge-pilates-logo2.png"
+                            "static/images/denge-pilates-logo.png"
                     );
 
             if (!logo.exists()) {
@@ -106,7 +109,10 @@ public class EmailService {
 
             context.setVariable(
                     "resetUrl",
-                    frontendUrl + "/reset-password?token=" + token
+                    frontendUrl
+                            + "/reset-password?token="
+                            + token
+                            + "&type=reset"
             );
 
             String html = templateEngine.process(

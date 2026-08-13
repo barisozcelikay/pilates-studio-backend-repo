@@ -1,11 +1,10 @@
 package com.pilatesstudio.authentication.controller;
 
-import com.pilatesstudio.authentication.dto.ForgotPasswordRequest;
-import com.pilatesstudio.authentication.dto.LoginRequest;
-import com.pilatesstudio.authentication.dto.LoginResponse;
-import com.pilatesstudio.authentication.dto.SetPasswordRequest;
+import com.pilatesstudio.authentication.dto.*;
 import com.pilatesstudio.authentication.service.AuthenticationService;
 import com.pilatesstudio.authentication.service.EmailService;
+import com.pilatesstudio.authentication.service.PasswordResetService;
+import com.pilatesstudio.authentication.service.SetPasswordService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final SetPasswordService setPasswordService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
@@ -27,11 +28,18 @@ public class AuthenticationController {
         );
     }
 
+    @PostMapping("/select-role")
+    public LoginResponse selectRole(
+            @Valid @RequestBody SelectRoleRequest request
+    ) {
+        return authenticationService.selectRole(request);
+    }
+
     @PostMapping("/set-password")
     public ResponseEntity<Void> setPassword(
             @Valid @RequestBody SetPasswordRequest request
     ) {
-        authenticationService.setPassword(request);
+        setPasswordService.setPassword(request);
         return ResponseEntity.noContent().build();
     }
 
@@ -39,15 +47,15 @@ public class AuthenticationController {
     public ResponseEntity<Void> forgotPassword(
             @Valid @RequestBody ForgotPasswordRequest request
     ) {
-        authenticationService.forgotPassword(request);
+        passwordResetService.forgotPassword(request);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(
-            @Valid @RequestBody SetPasswordRequest request
+            @Valid @RequestBody ResetPasswordRequest request
     ) {
-        authenticationService.setPassword(request);
+        passwordResetService.resetPassword(request);
         return ResponseEntity.noContent().build();
     }
 }
