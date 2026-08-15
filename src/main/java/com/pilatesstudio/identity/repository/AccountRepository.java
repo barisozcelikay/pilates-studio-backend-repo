@@ -14,4 +14,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     boolean existsByPhone(String phone);
 
     boolean existsByEmail(String email);
+
+    boolean existsByProfileId(Long profileId);
 }

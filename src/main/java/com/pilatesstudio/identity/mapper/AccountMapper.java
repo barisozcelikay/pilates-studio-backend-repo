@@ -8,9 +8,22 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-    @Mapping(target = "password", ignore = true)
+
+    @Mapping(
+            target = "profileId",
+            source = "profileId"
+    )
+    @Mapping(
+            target = "profileCode",
+            source = "profile.code"
+    )
+    @Mapping(
+            target = "profileName",
+            source = "profile.name"
+    )
     AccountDto toDto(Account account);
 
     @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "profile", ignore = true)
     Account toEntity(AccountDto accountDto);
 }

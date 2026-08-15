@@ -7,6 +7,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -28,7 +29,7 @@ public class AccountController {
         return accountService.findById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('PROFILE_ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AccountDto create(
@@ -37,12 +38,19 @@ public class AccountController {
         return accountService.create(accountDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('PROFILE_ADMIN')")
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AccountDto update(
             @Valid @RequestBody AccountDto accountDto
     ) {
         return accountService.update(accountDto);
+    }
+
+    @GetMapping("/me")
+    public AccountDto getCurrentAccount(Authentication authentication) {
+        Long accountId = Long.valueOf(authentication.getName());
+
+        return accountService.findById(accountId);
     }
 }

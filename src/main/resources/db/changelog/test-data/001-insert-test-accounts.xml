@@ -9,6 +9,7 @@
 
     <changeSet id="003-insert-account" author="baris">
 
+        <!-- Barış → ADMIN -->
         <insert schemaName="pilates_studio" tableName="account">
             <column name="phone" value="+905551111111"/>
             <column name="email" value="admin@pilatesstudio.local"/>
@@ -18,8 +19,15 @@
                     value="$2a$10$3nnyi.CdE4wD7Wa25VwKqOCM1NCwupilIPZbBAvq5gbT2JSQidAZC"/>
             <column name="status" value="ACTIVE"/>
             <column name="email_verified" valueBoolean="true"/>
+            <column name="profile_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.profile
+                        WHERE code = 'PROFILE_ADMIN'
+                    )"/>
         </insert>
 
+        <!-- Dilsad → PROFILE_INSTRUCTOR -->
         <insert schemaName="pilates_studio" tableName="account">
             <column name="phone" value="+905552222222"/>
             <column name="email" value="egitmen@pilatesstudio.local"/>
@@ -29,8 +37,15 @@
                     value="$2a$10$MT2O5Vpms2N3uDr/czGx1OBpVIB53RkYzpXb7NetKSKx0jb/TyiBS"/>
             <column name="status" value="ACTIVE"/>
             <column name="email_verified" valueBoolean="true"/>
+            <column name="profile_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.profile
+                        WHERE code = 'PROFILE_INSTRUCTOR'
+                    )"/>
         </insert>
 
+        <!-- Ayşe → MEMBER -->
         <insert schemaName="pilates_studio" tableName="account">
             <column name="phone" value="+905553333333"/>
             <column name="email" value="ayse@pilatesstudio.local"/>
@@ -40,8 +55,15 @@
                     value="$2a$10$xkdfEBG1BHxeQojIC09q6elphlHOxUQsE/Av9qy10eIMRSB4WWRvy"/>
             <column name="status" value="ACTIVE"/>
             <column name="email_verified" valueBoolean="true"/>
+            <column name="profile_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.profile
+                        WHERE code = 'PROFILE_MEMBER'
+                    )"/>
         </insert>
 
+        <!-- Fatma → MEMBER -->
         <insert schemaName="pilates_studio" tableName="account">
             <column name="phone" value="+905554444444"/>
             <column name="email" value="fatma@pilatesstudio.local"/>
@@ -49,6 +71,12 @@
             <column name="last_name" value="Demir"/>
             <column name="status" value="PENDING"/>
             <column name="email_verified" valueBoolean="false"/>
+            <column name="profile_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.profile
+                        WHERE code = 'PROFILE_MEMBER'
+                    )"/>
         </insert>
 
     </changeSet>

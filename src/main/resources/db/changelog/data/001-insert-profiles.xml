@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-seed-profile" author="baris">
+
+        <insert tableName="profile">
+            <column name="id" valueNumeric="1"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="updated_at" valueDate="now()"/>
+            <column name="code" value="PROFILE_ADMIN"/>
+            <column name="name" value="Yönetici"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="profile">
+            <column name="id" valueNumeric="2"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="updated_at" valueDate="now()"/>
+            <column name="code" value="PROFILE_INSTRUCTOR"/>
+            <column name="name" value="Eğitmen"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="profile">
+            <column name="id" valueNumeric="3"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="updated_at" valueDate="now()"/>
+            <column name="code" value="PROFILE_MEMBER"/>
+            <column name="name" value="Üye"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

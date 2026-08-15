@@ -9,27 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(
-        name = "role",
-        schema = "pilates_studio"
-)
+@Table(name = "profile")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role extends BaseEntity {
+public class Profile extends BaseEntity {
 
-    @Column(
-            name = "code",
-            nullable = false,
-            unique = true,
-            length = 50
-    )
+    @Column(nullable = false, unique = true, length = 50)
     private String code;
 
-    @Column(
-            name = "name",
-            nullable = false,
-            length = 100
-    )
+    @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = false)
+    private boolean active = true;
 }

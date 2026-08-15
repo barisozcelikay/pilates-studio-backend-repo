@@ -24,10 +24,15 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final AccountRoleService accountRoleService;
     private final PasswordTokenService passwordTokenService;
     private final EmailService emailService;
 
+    public List<AccountDto> findAll() {
+        return accountRepository.findAll()
+                .stream()
+                .map(accountMapper::toDto)
+                .toList();
+    }
 
     @Transactional
     public AccountDto create(AccountDto accountDto) {
@@ -35,7 +40,6 @@ public class AccountService {
         checkValidationControls(accountDto);
         Account account = setInitialCreateFields(accountDto);
         Account savedAccount = accountRepository.save(account);
-        accountRoleService.assignMemberRoleToNewAccount(account.getId());
 
         String token = passwordTokenService.createToken(
                 savedAccount,
@@ -59,12 +63,6 @@ public class AccountService {
         return accountMapper.toDto(accountRepository.save(accountMapper.toEntity(accountDto)));
     }
 
-    public List<AccountDto> findAll() {
-        return accountRepository.findAll()
-                .stream()
-                .map(accountMapper::toDto)
-                .toList();
-    }
 
     public AccountDto findById(Long id) {
         return accountRepository.findById(id)
@@ -74,6 +72,12 @@ public class AccountService {
                                 "Account not found: " + id
                         ));
     }
+
+    public boolean existsByProfileId(Long id) {
+        return accountRepository.existsByProfileId(id);
+    }
+
+
 
     private @NonNull Account setInitialCreateFields(AccountDto accountDto) {
         Account account = accountMapper.toEntity(accountDto);

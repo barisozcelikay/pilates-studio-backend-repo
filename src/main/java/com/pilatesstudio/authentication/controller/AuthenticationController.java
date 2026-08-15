@@ -28,13 +28,6 @@ public class AuthenticationController {
         );
     }
 
-    @PostMapping("/select-role")
-    public LoginResponse selectRole(
-            @Valid @RequestBody SelectRoleRequest request
-    ) {
-        return authenticationService.selectRole(request);
-    }
-
     @PostMapping("/set-password")
     public ResponseEntity<Void> setPassword(
             @Valid @RequestBody SetPasswordRequest request

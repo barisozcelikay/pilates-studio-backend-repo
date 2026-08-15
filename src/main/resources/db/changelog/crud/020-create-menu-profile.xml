@@ -7,11 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="003-create-account-role" author="baris">
+    <changeSet id="020-create-menu-profile" author="baris">
 
         <createTable
                 schemaName="pilates_studio"
-                tableName="account_role">
+                tableName="menu_profile">
 
             <column
                     name="id"
@@ -19,7 +19,7 @@
                     autoIncrement="true">
                 <constraints
                         primaryKey="true"
-                        primaryKeyName="pk_account_role"
+                        primaryKeyName="pk_menu_profile"
                         nullable="false"/>
             </column>
 
@@ -38,44 +38,42 @@
             </column>
 
             <column
-                    name="account_id"
+                    name="menu_id"
                     type="BIGINT">
                 <constraints nullable="false"/>
             </column>
 
             <column
-                    name="role_id"
+                    name="profile_id"
                     type="BIGINT">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
 
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="menu_profile"
+                baseColumnNames="menu_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="menu"
+                referencedColumnNames="id"
+                constraintName="fk_menu_profile_menu"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="menu_profile"
+                baseColumnNames="profile_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="profile"
+                referencedColumnNames="id"
+                constraintName="fk_menu_profile_profile"/>
+
         <addUniqueConstraint
                 schemaName="pilates_studio"
-                tableName="account_role"
-                columnNames="account_id, role_id"
-                constraintName="uk_account_role"/>
-
-        <addForeignKeyConstraint
-                baseTableSchemaName="pilates_studio"
-                baseTableName="account_role"
-                baseColumnNames="account_id"
-                referencedTableSchemaName="pilates_studio"
-                referencedTableName="account"
-                referencedColumnNames="id"
-                constraintName="fk_account_role_account"
-                onDelete="CASCADE"/>
-
-        <addForeignKeyConstraint
-                baseTableSchemaName="pilates_studio"
-                baseTableName="account_role"
-                baseColumnNames="role_id"
-                referencedTableSchemaName="pilates_studio"
-                referencedTableName="role"
-                referencedColumnNames="id"
-                constraintName="fk_account_role_role"
-                onDelete="CASCADE"/>
+                tableName="menu_profile"
+                columnNames="menu_id, profile_id"
+                constraintName="uk_menu_profile_menu_profile"/>
 
     </changeSet>
 

@@ -7,11 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="002-create-role" author="baris">
+    <changeSet id="019-create-menu" author="baris">
 
         <createTable
                 schemaName="pilates_studio"
-                tableName="role">
+                tableName="menu">
 
             <column
                     name="id"
@@ -19,7 +19,7 @@
                     autoIncrement="true">
                 <constraints
                         primaryKey="true"
-                        primaryKeyName="pk_role"
+                        primaryKeyName="pk_menu"
                         nullable="false"/>
             </column>
 
@@ -43,7 +43,7 @@
                 <constraints
                         nullable="false"
                         unique="true"
-                        uniqueConstraintName="uk_role_code"/>
+                        uniqueConstraintName="uk_menu_code"/>
             </column>
 
             <column
@@ -52,7 +52,47 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column
+                    name="icon"
+                    type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column
+                    name="route"
+                    type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column
+                    name="parent_id"
+                    type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+
+            <column
+                    name="sort_order"
+                    type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column
+                    name="active"
+                    type="BOOLEAN"
+                    defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
         </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="pilates_studio"
+                baseTableName="menu"
+                baseColumnNames="parent_id"
+                referencedTableSchemaName="pilates_studio"
+                referencedTableName="menu"
+                referencedColumnNames="id"
+                constraintName="fk_menu_parent"/>
 
     </changeSet>
 

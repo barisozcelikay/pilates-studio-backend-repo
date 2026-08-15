@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-insert-menus" author="baris">
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="DASHBOARD"/>
+            <column name="name" value="Dashboard"/>
+            <column name="icon" value="pi pi-home"/>
+            <column name="route" value="/dashboard"/>
+            <column name="sort_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="MEMBERS"/>
+            <column name="name" value="Üyeler"/>
+            <column name="icon" value="pi pi-users"/>
+            <column name="route" value="/members"/>
+            <column name="sort_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="INSTRUCTORS"/>
+            <column name="name" value="Eğitmenler"/>
+            <column name="icon" value="pi pi-user-edit"/>
+            <column name="route" value="/instructors"/>
+            <column name="sort_order" valueNumeric="3"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="CLASSES"/>
+            <column name="name" value="Dersler"/>
+            <column name="icon" value="pi pi-calendar"/>
+            <column name="route" value="/classes"/>
+            <column name="sort_order" valueNumeric="4"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="CALENDAR"/>
+            <column name="name" value="Takvim"/>
+            <column name="icon" value="pi pi-calendar-clock"/>
+            <column name="route" value="/calendar"/>
+            <column name="sort_order" valueNumeric="5"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="PAYMENTS"/>
+            <column name="name" value="Ödemeler"/>
+            <column name="icon" value="pi pi-wallet"/>
+            <column name="route" value="/payments"/>
+            <column name="sort_order" valueNumeric="6"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="SETTINGS"/>
+            <column name="name" value="Yönetim"/>
+            <column name="icon" value="pi pi-cog"/>
+            <column name="sort_order" valueNumeric="7"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <!-- Menü Ayarları -->
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="MENU_SETTINGS"/>
+            <column name="name" value="Menü Ayarları"/>
+            <column name="icon" value="pi pi-list"/>
+            <column name="route" value="/settings/menu"/>
+            <column name="parent_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.menu
+                        WHERE code = 'SETTINGS'
+                    )"/>
+            <column name="sort_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <!-- Kullanıcılar -->
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="ACCOUNTS"/>
+            <column name="name" value="Kullanıcılar"/>
+            <column name="icon" value="pi pi-users"/>
+            <column name="route" value="/settings/accounts"/>
+            <column name="parent_id"
+                    valueComputed="(
+                        SELECT id
+                        FROM pilates_studio.menu
+                        WHERE code = 'SETTINGS'
+                    )"/>
+            <column name="sort_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <!-- Profiller -->
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="PROFILES"/>
+            <column name="name" value="Profiller"/>
+            <column name="icon" value="pi pi-id-card"/>
+            <column name="route" value="/settings/profiles"/>
+            <column name="parent_id"
+                    valueComputed="(SELECT id FROM pilates_studio.menu WHERE code = 'SETTINGS')"/>
+            <column name="sort_order" valueNumeric="3"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

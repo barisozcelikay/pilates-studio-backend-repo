@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(
         name = "account",
@@ -66,4 +68,24 @@ public class Account extends BaseEntity {
             nullable = false
     )
     private boolean emailVerified;
+
+
+    @Column(
+            name = "profile_id",
+            nullable = false
+    )
+    private Long profileId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "profile_id",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(name = "fk_account_profile")
+    )
+    private Profile profile;
+
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
 }
