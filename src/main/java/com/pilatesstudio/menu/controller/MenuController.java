@@ -5,13 +5,9 @@ import com.pilatesstudio.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/menu")
@@ -33,6 +29,19 @@ public class MenuController {
                 );
 
         return menuService.findActiveMenusByProfileCode(profileCode);
+    }
+
+    @GetMapping("/settings")
+    @PreAuthorize("hasAuthority('PROFILE_ADMIN')")
+    public List<MenuDto> findAllMenus() {
+        return menuService.findAll();
+    }
+
+    @PutMapping()
+    public MenuDto update(
+            @RequestBody MenuDto request
+    ) {
+        return menuService.update(request);
     }
 
 

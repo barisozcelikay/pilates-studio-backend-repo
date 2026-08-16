@@ -35,4 +35,10 @@ public interface MenuProfileRepository extends JpaRepository<MenuProfile, Long> 
     List<Menu> findActiveMenusByProfileCode(
             @Param("profileCode") String profileCode
     );
+
+    List<MenuProfile> findAllByMenuId(Long menuId);
+
+    void deleteAllByMenuId(Long menuId);
+
+
 }
