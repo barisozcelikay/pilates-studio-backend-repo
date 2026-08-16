@@ -70,7 +70,7 @@
                     valueComputed="(
                     SELECT id
                     FROM pilates_studio.menu
-                    WHERE code = 'CLASSES'
+                    WHERE code = 'LESSONS'
                 )"/>
             <column
                     name="profile_id"
@@ -202,7 +202,7 @@
                     valueComputed="(
                     SELECT id
                     FROM pilates_studio.menu
-                    WHERE code = 'CLASSES'
+                    WHERE code = 'LESSONS'
                 )"/>
             <column
                     name="profile_id"

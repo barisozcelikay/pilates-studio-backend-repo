@@ -37,10 +37,10 @@
         </insert>
 
         <insert schemaName="pilates_studio" tableName="menu">
-            <column name="code" value="CLASSES"/>
+            <column name="code" value="LESSONS"/>
             <column name="name" value="Dersler"/>
             <column name="icon" value="pi pi-calendar"/>
-            <column name="route" value="/classes"/>
+            <column name="route" value="/lessons"/>
             <column name="sort_order" valueNumeric="4"/>
             <column name="active" valueBoolean="true"/>
         </insert>
