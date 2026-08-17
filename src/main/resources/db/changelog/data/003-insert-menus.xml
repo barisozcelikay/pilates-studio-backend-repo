@@ -115,6 +115,24 @@
             <column name="active" valueBoolean="true"/>
         </insert>
 
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="STUDIO_SERVICES"/>
+            <column name="name" value="Hizmetler"/>
+            <column name="icon" value="pi pi-id-card"/>
+            <column name="route" value="/studio-service"/>
+            <column name="sort_order" valueNumeric="5"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu">
+            <column name="code" value="STUDIO_PACKAGES"/>
+            <column name="name" value="Paketler"/>
+            <column name="icon" value="pi pi-id-card"/>
+            <column name="route" value="/studio-packages"/>
+            <column name="sort_order" valueNumeric="6"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
     </changeSet>
 
 </databaseChangeLog>

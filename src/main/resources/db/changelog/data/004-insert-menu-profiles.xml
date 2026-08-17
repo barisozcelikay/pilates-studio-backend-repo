@@ -173,6 +173,20 @@
                     valueComputed="(SELECT id FROM pilates_studio.profile WHERE code = 'PROFILE_ADMIN')"/>
         </insert>
 
+        <insert schemaName="pilates_studio" tableName="menu_profile">
+            <column name="menu_id"
+                    valueComputed="(SELECT id FROM pilates_studio.menu WHERE code = 'STUDIO_SERVICES')"/>
+            <column name="profile_id"
+                    valueComputed="(SELECT id FROM pilates_studio.profile WHERE code = 'PROFILE_ADMIN')"/>
+        </insert>
+
+        <insert schemaName="pilates_studio" tableName="menu_profile">
+            <column name="menu_id"
+                    valueComputed="(SELECT id FROM pilates_studio.menu WHERE code = 'STUDIO_PACKAGES')"/>
+            <column name="profile_id"
+                    valueComputed="(SELECT id FROM pilates_studio.profile WHERE code = 'PROFILE_ADMIN')"/>
+        </insert>
+
     </changeSet>
 
 
