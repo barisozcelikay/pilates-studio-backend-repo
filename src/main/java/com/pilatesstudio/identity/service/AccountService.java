@@ -10,6 +10,9 @@ import com.pilatesstudio.identity.entity.Account;
 import com.pilatesstudio.identity.mapper.AccountMapper;
 import com.pilatesstudio.identity.model.AccountStatus;
 import com.pilatesstudio.identity.repository.AccountRepository;
+import com.pilatesstudio.identity.repository.ProfileRepository;
+import com.pilatesstudio.member.service.MemberService;
+import com.pilatesstudio.instructor.service.InstructorService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,9 @@ public class AccountService {
     private final AccountMapper accountMapper;
     private final PasswordTokenService passwordTokenService;
     private final EmailService emailService;
+    private final ProfileRepository profileRepository;
+    private final MemberService memberService;
+    private final InstructorService instructorService;
 
     public List<AccountDto> findAll() {
         return accountRepository.findAll()
@@ -40,6 +46,15 @@ public class AccountService {
         checkValidationControls(accountDto);
         Account account = setInitialCreateFields(accountDto);
         Account savedAccount = accountRepository.save(account);
+
+        String profileCode = profileRepository.findById(savedAccount.getProfileId())
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"))
+                .getCode();
+        if ("PROFILE_MEMBER".equals(profileCode)) {
+            memberService.createForAccount(savedAccount.getId());
+        } else if ("PROFILE_INSTRUCTOR".equals(profileCode)) {
+            instructorService.createForAccount(savedAccount.getId());
+        }
 
         String token = passwordTokenService.createToken(
                 savedAccount,
@@ -60,7 +75,22 @@ public class AccountService {
 
     @Transactional
     public AccountDto update(AccountDto accountDto) {
-        return accountMapper.toDto(accountRepository.save(accountMapper.toEntity(accountDto)));
+        Account account = accountRepository.findById(accountDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found: " + accountDto.getId()));
+        if (!account.getProfileId().equals(accountDto.getProfileId())) {
+            throw new BusinessException("Profil değişikliği desteklenmiyor");
+        }
+        account.setFirstName(accountDto.getFirstName());
+        account.setLastName(accountDto.getLastName());
+        account.setPhone(accountDto.getPhone());
+        account.setEmail(accountDto.getEmail());
+        return accountMapper.toDto(accountRepository.save(account));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        accountRepository.delete(accountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found: " + id)));
     }
 
 

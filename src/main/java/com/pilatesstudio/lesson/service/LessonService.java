@@ -96,7 +96,7 @@ public class LessonService {
 
         dto.setInstructorIds(instructorIds);
         dto.setInstructorNames(instructorRepository.findAllById(instructorIds).stream()
-                .map(instructor -> instructor.getFirstName() + " " + instructor.getLastName())
+                .map(instructor -> instructor.getAccount().getFirstName() + " " + instructor.getAccount().getLastName())
                 .toList());
         return dto;
     }

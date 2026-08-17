@@ -47,6 +47,13 @@ public class AccountController {
         return accountService.update(accountDto);
     }
 
+    @PreAuthorize("hasAuthority('PROFILE_ADMIN')")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        accountService.delete(id);
+    }
+
     @GetMapping("/me")
     public AccountDto getCurrentAccount(Authentication authentication) {
         Long accountId = Long.valueOf(authentication.getName());
