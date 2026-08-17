@@ -109,7 +109,7 @@
                 baseTableName="membership"
                 baseColumnNames="package_id"
                 referencedTableSchemaName="pilates_studio"
-                referencedTableName="package"
+                referencedTableName="studio_package"
                 referencedColumnNames="id"
                 constraintName="fk_membership_package"/>
 

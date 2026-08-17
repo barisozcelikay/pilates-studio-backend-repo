@@ -67,7 +67,7 @@
                 baseTableName="lesson_service"
                 baseColumnNames="service_id"
                 referencedTableSchemaName="pilates_studio"
-                referencedTableName="service"
+                referencedTableName="studio_service"
                 referencedColumnNames="id"
                 constraintName="fk_lesson_service_service"/>
 

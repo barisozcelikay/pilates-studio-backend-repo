@@ -7,11 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="002-insert-initial-service" author="baris">
+    <changeSet id="002-insert-initial-studio_service" author="baris">
 
         <insert
                 schemaName="pilates_studio"
-                tableName="service">
+                tableName="studio_service">
             <column name="code" value="REFORMER"/>
             <column name="name" value="Reformer Pilates"/>
             <column
@@ -21,7 +21,7 @@
 
         <insert
                 schemaName="pilates_studio"
-                tableName="service">
+                tableName="studio_service">
             <column name="code" value="HAMMOCK_YOGA"/>
             <column name="name" value="Hamak Yoga"/>
             <column
@@ -31,7 +31,7 @@
 
         <insert
                 schemaName="pilates_studio"
-                tableName="service">
+                tableName="studio_service">
             <column name="code" value="PRIVATE_PT"/>
             <column name="name" value="Özel PT"/>
             <column

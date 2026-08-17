@@ -11,7 +11,7 @@
 
         <createTable
                 schemaName="pilates_studio"
-                tableName="service">
+                tableName="studio_service">
 
             <column
                     name="id"

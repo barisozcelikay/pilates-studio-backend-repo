@@ -68,7 +68,7 @@
                 baseTableName="package_service"
                 baseColumnNames="package_id"
                 referencedTableSchemaName="pilates_studio"
-                referencedTableName="package"
+                referencedTableName="studio_package"
                 referencedColumnNames="id"
                 constraintName="fk_package_service_package"
                 onDelete="CASCADE"/>
@@ -78,7 +78,7 @@
                 baseTableName="package_service"
                 baseColumnNames="service_id"
                 referencedTableSchemaName="pilates_studio"
-                referencedTableName="service"
+                referencedTableName="studio_service"
                 referencedColumnNames="id"
                 constraintName="fk_package_service_service"
                 onDelete="RESTRICT"/>
