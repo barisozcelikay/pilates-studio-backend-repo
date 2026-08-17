@@ -2,8 +2,8 @@ package com.pilatesstudio.lesson.service;
 
 import com.pilatesstudio.common.exception.BusinessException;
 import com.pilatesstudio.common.exception.ResourceNotFoundException;
-import com.pilatesstudio.identity.entity.Account;
-import com.pilatesstudio.identity.repository.AccountRepository;
+import com.pilatesstudio.instructor.entity.Instructor;
+import com.pilatesstudio.instructor.repository.InstructorRepository;
 import com.pilatesstudio.lesson.dto.LessonDto;
 import com.pilatesstudio.lesson.entity.Lesson;
 import com.pilatesstudio.lesson.entity.LessonInstructor;
@@ -24,11 +24,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class LessonService {
 
-    private static final String INSTRUCTOR_PROFILE_CODE = "PROFILE_INSTRUCTOR";
-
     private final LessonRepository lessonRepository;
     private final LessonInstructorRepository lessonInstructorRepository;
-    private final AccountRepository accountRepository;
+    private final InstructorRepository instructorRepository;
     private final LessonMapper lessonMapper;
 
     public List<LessonDto> findAll() {
@@ -97,8 +95,8 @@ public class LessonService {
                 .toList();
 
         dto.setInstructorIds(instructorIds);
-        dto.setInstructorNames(accountRepository.findAllById(instructorIds).stream()
-                .map(account -> account.getFirstName() + " " + account.getLastName())
+        dto.setInstructorNames(instructorRepository.findAllById(instructorIds).stream()
+                .map(instructor -> instructor.getFirstName() + " " + instructor.getLastName())
                 .toList());
         return dto;
     }
@@ -111,14 +109,11 @@ public class LessonService {
 
     private List<Long> validateInstructors(List<Long> instructorIds) {
         List<Long> ids = instructorIds == null ? List.of() : instructorIds.stream().distinct().toList();
-        Map<Long, Account> instructorsById = accountRepository.findAllById(ids).stream()
-                .collect(Collectors.toMap(Account::getId, Function.identity()));
+        Map<Long, Instructor> instructorsById = instructorRepository.findAllById(ids).stream()
+                .collect(Collectors.toMap(Instructor::getId, Function.identity()));
 
         boolean invalidInstructor = ids.stream().anyMatch(id -> {
-            Account account = instructorsById.get(id);
-            return account == null
-                    || account.getProfile() == null
-                    || !INSTRUCTOR_PROFILE_CODE.equals(account.getProfile().getCode());
+            return instructorsById.get(id) == null;
         });
 
         if (invalidInstructor) {
